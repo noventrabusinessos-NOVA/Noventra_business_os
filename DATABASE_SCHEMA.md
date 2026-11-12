@@ -382,16 +382,15 @@ Requirements:
 - Database-level security policies must enforce business data isolation where supported.
 # 16. ORDERS
 
-Table: orders
+## Table: orders
 
 Purpose:
-Manage commerce orders.
+Manage commerce orders for individual businesses.
 
 Fields:
-
-- id
-- business_id
-- customer_id
+- id (Primary Key)
+- business_id (Foreign Key -> businesses.id)
+- customer_id (Foreign Key -> customers.id)
 - order_number
 - order_status
 - subtotal
@@ -402,8 +401,30 @@ Fields:
 - created_at
 - updated_at
 
-Order items should be stored separately to preserve product details and quantities.
+Relationships:
+- Each order must belong to exactly one business.
+- Each order must reference a valid customer belonging to the same business.
+- One customer may have multiple orders.
+- One business may have multiple orders.
+- Each order may contain multiple order items.
 
+Requirements:
+- Order access must follow business membership permissions.
+- Users must not access orders belonging to unauthorized businesses.
+- The backend must verify that customer_id belongs to the same business_id.
+- Order numbers must be unique within each business.
+- Monetary values must use precise decimal types, not floating-point types.
+- Subtotal, tax_amount, and total_amount must not be negative.
+- Currency must use a valid ISO 4217 currency code.
+- Total amounts must be calculated and validated by the backend.
+- Payment status must only be updated through authorized payment workflows.
+- Completed financial records must not be silently modified or deleted.
+- Important order and payment status changes must be recorded in the audit log.
+- Database-level security policies must enforce business data isolation where supported.
+
+Order Items:
+Order items must be stored in a separate order_items table.
+Each order item must reference its parent order and preserve product details, quantity, unit price, and line total at the time of purchase.
 # 17. ORDER ITEMS
 
 Table: order_items
@@ -483,9 +504,7 @@ Fields:
 
 - id
 - user_id
-- business_id
-- project_id
-- agent_id
+- businessagent_id
 - interaction_type
 - input_reference
 - output_reference
