@@ -310,24 +310,40 @@ Fields:
 
 # 14. PRODUCTS
 
-Table: products
+## Table: products
 
 Purpose:
-Manage business products and services.
+Manage products and services offered by a business.
 
 Fields:
-
-- id
-- business_id
+- id (Primary Key)
+- business_id (Foreign Key -> businesses.id)
 - name
 - description
 - product_type
 - price
 - currency
-- inventory_quantity
+- inventory_quantity (nullable)
 - status
 - created_at
 - updated_at
+
+Relationships:
+- Each product must belong to exactly one business.
+- One business may have multiple products.
+- Product ownership is determined by its business_id.
+
+Requirements:
+- Every product must be associated with a valid business.
+- Product access must follow the permissions of its associated business.
+- Users must not access or modify products belonging to unauthorized businesses.
+- Product creation, updates, and deletion must be authorized by the backend.
+- Price and inventory changes must be validated.
+- Price must not be negative.
+- Currency must use a valid ISO 4217 currency code.
+- Inventory quantity must not be negative when inventory tracking is enabled.
+- Important product changes must be recorded in the audit log.
+- Database-level security policies must enforce business data isolation where supported.
 
 # 15. CUSTOMERS
 
