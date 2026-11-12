@@ -951,6 +951,19 @@ AI:
 Orders:
 - One order may contain multiple order items.
 - One customer may have multiple orders.
+- ## 25.9 Approval Request Relationships
+
+- One business can have multiple approval requests.
+- Each approval request belongs to exactly one business.
+- One user can create multiple approval requests.
+- Each approval request must reference an authorized requesting user.
+- One AI task can be associated with multiple approval requests.
+- An approval request may optionally reference one AI task.
+- One user can review multiple approval requests.
+- Each approval request may have one reviewing user.
+- The requesting user, reviewing user, and referenced AI task must be authorized within the same business context.
+- Every approval decision must be recorded in audit_logs.
+- Approval requests must follow the business-level access control rules.
 
 # 26. DATA SECURITY REQUIREMENTS
 
