@@ -992,7 +992,58 @@ The implementation must consider:
 - Transaction management.
 - Cascading behavior.
 - Data validation.
+- 
+## 27.1 ADVANCED RELATIONAL INTEGRITY CONSTRAINTS
 
+The database must enforce strict relational integrity and business-level data isolation.
+
+### Business Ownership and Tenant Isolation
+
+- Every business-owned record must be associated with a valid business.
+- Records belonging to one business must never be accessible through another business context.
+- Business membership must be validated before granting access to business resources.
+- Cross-business references must be rejected.
+- Critical tenant isolation rules must be enforced at both database and backend levels.
+
+### Composite Foreign Key Requirements
+
+Where necessary, composite foreign keys must enforce relationships between records belonging to the same business.
+
+Examples include:
+
+- A business project and its related business records.
+- An order and its associated customer.
+- An order item and its referenced product.
+- An AI task and its associated business project.
+- An AI interaction and its referenced AI task.
+- An approval request and its referenced AI task.
+- A website and its associated brand identity.
+
+### User Authorization Integrity
+
+- Business owners must have valid Owner memberships.
+- Assigned project task users must be active members of the relevant business.
+- AI task creators must have appropriate business permissions.
+- Approval request creators and reviewers must be authorized within the relevant business.
+- Unauthorized ownership transfers must be rejected.
+
+### Subscription Integrity
+
+- Subscription plans are platform-level records and are not owned by individual businesses.
+- Each subscription must reference a valid subscription plan.
+- Only authorized users may manage business subscriptions.
+- Subscription limits and entitlements must be validated by the backend.
+
+### Database Enforcement
+
+- Use foreign key constraints for valid references.
+- Use unique constraints to prevent duplicate records where required.
+- Use CHECK constraints for valid numeric ranges and supported values.
+- Use NOT NULL constraints for mandatory fields.
+- Use composite constraints wherever necessary to prevent cross-business references.
+- Use database transactions for operations involving multiple related records.
+- Use Row Level Security (RLS) where supported.
+- Test tenant isolation with multiple independent business accounts.
 # 28. DATABASE IMPLEMENTATION ROADMAP
 
 Stage 1:
