@@ -307,26 +307,62 @@ Requirements:
 
 # 11. BRAND IDENTITIES
 
-Table: brand_identities
+
+## Table: brand_identities
 
 Purpose:
-Store branding information.
+Store structured brand identity information for businesses, including AI-generated branding, visual assets, brand guidelines, and customizable design settings.
 
 Fields:
-
-- id
-- business_id
+- id (Primary Key)
+- business_id (Foreign Key -> businesses.id)
+- project_id (Foreign Key -> business_projects.id, nullable)
+- created_by (Foreign Key -> users.id)
 - brand_name
 - tagline
 - brand_description
+- brand_voice
+- target_audience
 - primary_color
 - secondary_color
+- accent_colors
+- color_palette
 - typography
 - logo_asset
+- logo_variations
+- visual_style
 - brand_guidelines
+- generation_source
+- status
+- version_number
+- is_default
 - created_at
 - updated_at
 
+Relationships:
+- Each brand identity belongs to exactly one business.
+- A brand identity may optionally belong to a business project.
+- The associated project, when provided, must belong to the same business.
+- Each brand identity must have a valid creator.
+- One business may have multiple brand identity versions or brand profiles.
+- Only one active default brand identity should exist per business.
+
+Requirements:
+- Brand identities must be isolated by business.
+- Users must have active membership and appropriate permissions to manage brand identities.
+- All operations must be authorized by the backend.
+- Users must be able to customize brand names, taglines, colors, typography, and visual styles.
+- Color values must use validated formats such as HEX.
+- Color palettes must support multiple colors and named theme presets.
+- The system must support future custom themes and reusable design tokens.
+- Logo assets must be stored securely in file storage.
+- Uploaded assets must be validated for file type and size.
+- AI-generated and user-created branding must be distinguishable.
+- Previous brand identity versions must be preserved.
+- Important changes must be recorded in audit_logs.
+- Brand guidelines must support structured and extensible data.
+- Brand identity data must be available to authorized website and 3D commerce builders.
+- Database-level security policies must enforce business data isolation where supported.
 # 12. WEBSITES
 
 Table: websites
