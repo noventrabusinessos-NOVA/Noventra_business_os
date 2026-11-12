@@ -236,3 +236,79 @@ The architecture must support continuous modification, expansion, testing, and m
 ---
 
 Architecture Decision Status: APPROVED
+
+# 21. TECHNOLOGY STACK DECISION
+
+## Frontend
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+
+## Backend
+- Python
+- FastAPI
+- Pydantic
+- SQLAlchemy
+
+## Database
+- PostgreSQL
+- Supabase as an initial managed infrastructure option
+- Alembic for database migrations
+- pgvector for future vector search
+
+## Authentication and Storage
+- Supabase Auth
+- Supabase Storage
+- Server-side authorization
+- Role-Based Access Control
+
+## AI Infrastructure
+- Python AI integration
+- LangGraph for future agent orchestration
+- Model-independent AI integration layer
+- Human approval for sensitive actions
+
+## 3D Commerce
+- Three.js
+- React Three Fiber
+
+## Background Processing
+- Redis
+- Celery
+- Introduced when workload requires asynchronous processing
+
+## DevOps and Deployment
+- Docker
+- GitHub Actions
+- GitHub for version control
+- Managed cloud hosting
+- Separate frontend and backend deployment
+
+## Architecture
+- Modular Monolith as the initial backend architecture
+- Explicit module boundaries
+- API-first communication
+- Future Microservices extraction capability
+
+## Technology Selection Principles
+- Scalability
+- Security
+- Maintainability
+- Cost efficiency
+- Open standards
+- Interoperability
+- Long-term extensibility
+
+## Implementation Note
+
+This technology stack represents the approved target direction.
+
+Individual services and infrastructure providers must be evaluated before production adoption.
+
+Technology decisions may evolve without changing the overall product vision.
+
+---
+
+Technology Stack Status: APPROVED AS TARGET
+
