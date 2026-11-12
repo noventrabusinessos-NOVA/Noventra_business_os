@@ -470,24 +470,38 @@ Sensitive information must be handled according to privacy and retention policie
 
 # 21. PROJECT TASKS
 
-Table: project_tasks
+## Table: project_tasks
 
 Purpose:
-Track business project activities.
+Track activities and tasks within business development projects.
 
 Fields:
-
-- id
-- project_id
+- id (Primary Key)
+- project_id (Foreign Key -> business_projects.id)
 - title
 - description
-- assigned_to
+- assigned_to (Foreign Key -> users.id, nullable)
 - priority
 - task_status
 - due_date
 - created_at
 - updated_at
 
+Relationships:
+- Each task must belong to exactly one business project.
+- One project may contain multiple tasks.
+- A task may be assigned to one user.
+- The assigned user must have an active membership in the business associated with the project.
+
+Requirements:
+- Every task must be associated with a valid project.
+- Task access must follow the permissions of the parent business project.
+- Users must not access tasks belonging to unauthorized businesses.
+- Only authorized users may create, update, assign, or delete tasks.
+- Task assignments must be validated by the backend.
+- Task priority and status changes must be authorized.
+- Important task changes must be recorded in the audit log.
+- Database-level security policies must enforce business data isolation where supported.
 # 22. SUBSCRIPTIONS
 
 Table: subscriptions
