@@ -255,24 +255,55 @@ Requirements:
 
 # 10. BUSINESS MODELS
 
-Table: business_models
+## Table: business_models
 
 Purpose:
-Store business model information.
+Store structured business model information for each business project, including AI-generated and user-edited business model versions.
 
 Fields:
-
-- id
-- project_id
+- id (Primary Key)
+- business_id (Foreign Key -> businesses.id)
+- project_id (Foreign Key -> business_projects.id)
+- created_by (Foreign Key -> users.id)
+- analysis_id (Foreign Key -> business_analyses.id, nullable)
 - value_proposition
 - customer_segments
 - revenue_streams
 - cost_structure
 - channels
 - key_activities
+- key_resources
+- key_partnerships
+- customer_relationships
 - status
+- version_number
+- generation_source
+- reviewed_by (Foreign Key -> users.id, nullable)
 - created_at
 - updated_at
+
+Relationships:
+- Each business model belongs to exactly one business.
+- Each business model belongs to exactly one business project.
+- The associated project must belong to the same business.
+- Each business model must have a valid creator.
+- A business model may reference a business analysis.
+- The referenced analysis, when provided, must belong to the same business and project.
+- Review information must reference an authorized user.
+
+Requirements:
+- Business models must be isolated by business.
+- Users must have active membership and appropriate permissions to access or modify business models.
+- All operations must be authorized by the backend.
+- Previous versions must be preserved.
+- Each significant revision must create a new version.
+- AI-generated content must be distinguishable from user-created or edited content.
+- Users must be able to review and edit business model information.
+- Important changes must be recorded in audit_logs.
+- Status values must follow a predefined lifecycle.
+- Financial values must use appropriate decimal precision and ISO currency codes where applicable.
+- Sensitive business information must be protected.
+- Database-level security policies must enforce business data isolation where supported.
 
 # 11. BRAND IDENTITIES
 
