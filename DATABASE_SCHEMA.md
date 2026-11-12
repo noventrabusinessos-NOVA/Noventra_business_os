@@ -347,28 +347,39 @@ Requirements:
 
 # 15. CUSTOMERS
 
-Table: customers
+## Table: customers
 
 Purpose:
-Store customer records belonging to a business.
+Store customer records belonging to individual businesses.
 
 Fields:
-
-- id
-- business_id
+- id (Primary Key)
+- business_id (Foreign Key -> businesses.id)
 - name
-- email
-- phone
+- email (nullable)
+- phone (nullable)
 - customer_status
 - created_at
 - updated_at
 
+Relationships:
+- Each customer must belong to exactly one business.
+- One business may have multiple customers.
+- Customer records must remain associated with their original business.
+
 Requirements:
-
-- Customer data must be isolated by business.
-- Access must be authorized.
-- Personal information must be protected.
-
+- Every customer record must reference a valid business.
+- Customer data must be isolated by business_id.
+- Access must be authorized through active business membership.
+- Users must not access customer records belonging to unauthorized businesses.
+- Only authorized users may create, view, update, or delete customer records.
+- Personal information must be protected against unauthorized access.
+- Email and phone fields must be validated when provided.
+- Personal data must only be collected and processed for legitimate business purposes.
+- Data retention and deletion must follow applicable privacy requirements.
+- Sensitive customer information must not be exposed in application logs.
+- Important customer record changes must be recorded in the audit log without unnecessarily storing personal data in audit entries.
+- Database-level security policies must enforce business data isolation where supported.
 # 16. ORDERS
 
 Table: orders
