@@ -964,6 +964,20 @@ Orders:
 - The requesting user, reviewing user, and referenced AI task must be authorized within the same business context.
 - Every approval decision must be recorded in audit_logs.
 - Approval requests must follow the business-level access control rules.
+- ## 25.10 Business Agent Assignment Relationships
+
+- One business can have multiple business agent assignments.
+- One AI agent can be assigned to multiple businesses.
+- Each assignment belongs to exactly one business and one AI agent.
+- Each assignment is created by one authorized user.
+- The same AI agent must not have duplicate assignments within the same business.
+- One business agent assignment can authorize multiple AI tasks over time.
+- Each AI task must reference an AI agent assigned to its business.
+- The referenced assignment must be Active when a new AI task is authorized for execution.
+- AI task execution must respect the permission level of the relevant assignment.
+- An inactive or suspended assignment must not authorize new AI task execution.
+- Changes to assignments and permissions must be recorded in audit_logs.
+- All assignment relationships must enforce business-level data isolation.
 
 # 26. DATA SECURITY REQUIREMENTS
 
