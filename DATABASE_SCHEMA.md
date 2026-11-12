@@ -100,27 +100,37 @@ One user has one profile.
 
 # 6. BUSINESSES
 
-Table: businesses
+## Table: businesses
 
 Purpose:
 Represent independent businesses managed through NOVENTRA.
 
 Fields:
-
-- id
+- id (Primary Key)
 - name
 - description
 - industry
 - business_type
-- owner_user_id
+- owner_user_id (Foreign Key -> users.id)
 - status
 - created_at
 - updated_at
 
-Relationship:
+Relationships:
+- One user may own multiple businesses.
+- Each business must have one designated owner.
+- Each business may have multiple users through business_memberships.
+- The owner_user_id must reference a valid user.
+- The designated owner must have an active Owner membership in business_memberships.
 
-One user may own multiple businesses.
-
+Requirements:
+- Every business must have a unique identifier.
+- Business ownership must be verified by the backend.
+- Only authorized users may view or modify business information.
+- Business data must remain isolated from other businesses.
+- Ownership changes must update the ownership record and membership consistently.
+- Ownership changes must be recorded in the audit log.
+- Business status changes must be authorized and logged.
 # 7. BUSINESS MEMBERSHIPS
 ## Table: business_memberships
 
