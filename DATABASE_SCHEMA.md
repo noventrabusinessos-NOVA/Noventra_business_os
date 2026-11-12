@@ -1351,3 +1351,51 @@ Purpose: Define consistent database data types, validation rules, and field cons
 - Database migrations must be version-controlled.
 - Schema changes must be reviewed before deployment.
 - Data integrity tests must be included in the automated test suite.
+- # 33. DATABASE MIGRATION STRATEGY
+
+Purpose: Define a safe and controlled process for evolving the NOVENTRA BUSINESS OS database schema.
+
+## 33.1 Migration Management
+
+- All database schema changes must be managed through version-controlled migrations.
+- Alembic will be used for managing SQLAlchemy database migrations.
+- Every migration must have a unique revision identifier.
+- Migrations must document their purpose and affected database objects.
+- Migration files must be stored in the project repository.
+
+## 33.2 Migration Safety
+
+- Existing production data must be preserved during schema changes.
+- Destructive migrations require explicit review and approval.
+- Data transformations must be validated before and after execution.
+- Database backups must be available before high-risk migrations.
+- Failed migrations must have a documented recovery strategy.
+
+## 33.3 Development and Testing
+
+- Migrations must first be tested in a development environment.
+- Important migrations must be tested with realistic sample data.
+- Automated tests must verify schema integrity after migrations.
+- Migration execution must be reviewed before production deployment.
+
+## 33.4 Production Deployment
+
+- Production migrations must be executed through a controlled deployment process.
+- Database changes must be coordinated with backend application releases.
+- Migration logs must be retained.
+- Database downtime and locking risks must be evaluated.
+- Rollback procedures must be documented where possible.
+
+## 33.5 Schema Evolution
+
+- New features may introduce new tables, fields, indexes, and constraints.
+- Existing records must remain consistent after schema updates.
+- Deprecated fields must be removed only after dependent application code has been updated.
+- Database schema documentation must be updated whenever the schema changes.
+
+## 33.6 Migration Security
+
+- Migration execution must require authorized credentials.
+- Database credentials must never be committed to the public repository.
+- Production database access must follow least-privilege principles.
+- Migration activities must be logged and monitored.
