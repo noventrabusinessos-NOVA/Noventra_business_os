@@ -1396,6 +1396,40 @@ Purpose: Define a safe and controlled process for evolving the NOVENTRA BUSINESS
 ## 33.6 Migration Security
 
 - Migration execution must require authorized credentials.
+- 
 - Database credentials must never be committed to the public repository.
 - Production database access must follow least-privilege principles.
 - Migration activities must be logged and monitored.
+- # 34. BUSINESS AGENT ASSIGNMENTS
+
+Purpose: Manage the assignment, activation, permissions, and configuration of AI agents within individual businesses.
+
+Fields:
+- id (Primary Key)
+- business_id (Foreign Key -> businesses.id)
+- agent_id (Foreign Key -> ai_agents.id)
+- assigned_by (Foreign Key -> users.id)
+- assignment_status
+- permission_level
+- configuration_override (JSONB, Nullable)
+- created_at
+- updated_at
+
+Relationships:
+- One business can have multiple assigned AI agents.
+- One AI agent can be assigned to multiple businesses.
+- Each assignment belongs to exactly one business and one AI agent.
+- Each assignment is created by an authorized user.
+
+Requirements:
+- A unique constraint must prevent duplicate assignments for the same business and agent.
+- Only authorized business members may assign or configure AI agents.
+- Each assignment must belong to a valid business.
+- Each assigned agent must reference a valid AI agent.
+- Supported assignment statuses: Active, Inactive, Suspended.
+- Agent permissions must follow the principle of least privilege.
+- Configuration overrides must be validated against the agent configuration schema.
+- AI agents must not access business data without an active authorized assignment.
+- AI tasks must be validated against the relevant business-agent assignment.
+- Changes to assignments and permissions must be recorded in audit_logs.
+- Business-level data isolation must be enforced.
