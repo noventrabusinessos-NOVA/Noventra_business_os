@@ -28,7 +28,6 @@ The database must support multiple users and multiple businesses while maintaini
 - Scalability.
 
 # 3. CORE ENTITIES
-
 The initial database will contain the following entities:
 
 1. Users
@@ -51,6 +50,7 @@ The initial database will contain the following entities:
 18. Subscriptions
 19. Notifications
 20. Audit Logs
+
 
 # 4. USERS
 
