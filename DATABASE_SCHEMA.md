@@ -1167,7 +1167,104 @@ Requirements:
 - Approval decisions must be recorded with reviewer identity and timestamp.
 - Approval requests must be protected from unauthorized modification.
 - Expired requests must not be approved or executed.
+- 
 - Approval decisions must be recorded in audit_logs.
 - Action payloads must be validated before execution.
 - Sensitive information must not be stored unnecessarily in action_payload.
 - All approval operations must enforce business-level access control.
+- # 31. DATABASE INDEXING STRATEGY
+
+Purpose: Define indexing standards to improve database query performance while maintaining data integrity.
+
+## 31.1 Primary Key Indexes
+
+- Every table must have a primary key.
+- Primary key indexes must be created automatically by PostgreSQL.
+- Primary keys should use UUID identifiers where appropriate.
+
+## 31.2 Foreign Key Indexes
+
+Indexes should be created for frequently queried foreign key columns, including:
+
+- users.id
+- user_profiles.user_id
+- businesses.owner_user_id
+- business_memberships.business_id
+- business_memberships.user_id
+- business_projects.business_id
+- business_projects.created_by
+- project_tasks.project_id
+- project_tasks.assigned_to
+- business_analyses.business_id
+- business_analyses.project_id
+- business_models.business_id
+- brand_identities.business_id
+- websites.business_id
+- marketing_plans.business_id
+- products.business_id
+- customers.business_id
+- orders.business_id
+- orders.customer_id
+- order_items.order_id
+- order_items.product_id
+- ai_tasks.business_id
+- ai_tasks.project_id
+- ai_tasks.agent_id
+- ai_interactions.business_id
+- ai_interactions.task_id
+- subscriptions.business_id
+- subscriptions.plan_id
+- notifications.user_id
+- notifications.business_id
+- approval_requests.business_id
+- approval_requests.ai_task_id
+
+## 31.3 Composite Indexes
+
+Consider composite indexes for frequently combined query conditions.
+
+Examples:
+
+- business_memberships (business_id, user_id)
+- business_projects (business_id, project_status)
+- products (business_id, status)
+- customers (business_id, customer_status)
+- orders (business_id, created_at)
+- ai_tasks (business_id, task_status)
+- notifications (user_id, read_at)
+- approval_requests (business_id, approval_status)
+
+## 31.4 Unique Indexes
+
+Unique constraints and indexes must prevent duplicate records where required.
+
+Examples:
+
+- users.email
+- user_profiles.user_id
+- business_memberships (business_id, user_id)
+- orders (business_id, order_number)
+- subscription_plans.plan_code
+
+## 31.5 JSONB Indexing
+
+- JSONB fields must not be indexed automatically without a clear query requirement.
+- GIN indexes may be introduced for JSONB fields that require frequent structured searches.
+- Index selection must be based on actual query patterns.
+
+## 31.6 Indexing Performance Requirements
+
+- Avoid unnecessary indexes.
+- Consider the performance impact of indexes on INSERT, UPDATE, and DELETE operations.
+- Use EXPLAIN ANALYZE to evaluate important database queries.
+- Monitor slow queries.
+- Review indexes as application usage grows.
+- Use database migrations to manage index creation and removal.
+- Test indexing changes before production deployment.
+
+## 31.7 Indexing Security and Tenant Isolation
+
+- Business-level queries should use appropriate business_id filtering.
+- Indexes must support efficient tenant-scoped queries.
+- Indexes do not replace authorization or Row Level Security.
+- Database access policies must remain enforced independently of indexing.
