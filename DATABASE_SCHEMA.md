@@ -486,27 +486,26 @@ Agent configurations must not contain exposed API secrets.
 
 # 19. AI TASKS
 
-Table: ai_tasks
+## Table: ai_tasks
 
 Purpose:
-Track tasks assigned to AI agents.
+Track tasks assigned to AI agents within individual businesses.
 
 Fields:
-
-- id
-- business_id
-- project_id
-- agent_id
-- created_by
+- id (Primary Key)
+- business_id (Foreign Key -> businesses.id)
+- project_id (Foreign Key -> business_projects.id, nullable)
+- agent_id (Foreign Key -> ai_agents.id)
+- created_by (Foreign Key -> users.id)
 - task_type
 - task_input
 - task_status
 - result_reference
 - created_at
+- updated_at
 - completed_at
 
 Possible statuses:
-
 - Pending
 - Running
 - Waiting for Approval
@@ -514,6 +513,27 @@ Possible statuses:
 - Failed
 - Cancelled
 
+Relationships:
+- Each AI task must belong to exactly one business.
+- Each AI task must be assigned to one valid AI agent.
+- A task may optionally belong to a business project.
+- Each task must have a valid creator.
+- The project, when provided, must belong to the same business.
+
+Requirements:
+- AI task access must follow business membership permissions.
+- Users must not access AI tasks belonging to unauthorized businesses.
+- The backend must validate business_id, project_id, agent_id, and created_by.
+- AI agents must only process tasks authorized for their assigned business.
+- Task input and output must remain isolated between businesses.
+- Sensitive business and customer data must be protected.
+- AI task execution must be logged.
+- Failed tasks must preserve error information for authorized review.
+- Tasks requiring external actions or high-impact decisions must enter Waiting for Approval.
+- AI agents must not independently execute financial transactions, payments, or other sensitive actions without required human approval.
+- Task status transitions must be validated by the backend.
+- Important task events must be recorded in the audit log.
+- Database-level security policies must enforce business data isolation where supported.
 # 20. AI INTERACTIONS
 
 Table: ai_interactions
@@ -556,8 +576,7 @@ Fields:
 
 Relationships:
 - Each task must belong to exactly one business project.
-- One project may contain multiple tasks.
-- A task may be assigned to one user.
+- One project A task may be assigned to one user.
 - The assigned user must have an active membership in the business associated with the project.
 
 Requirements:
