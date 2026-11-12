@@ -1451,6 +1451,55 @@ Requirements:
 - Agent permissions must follow the principle of least privilege.
 - Configuration overrides must be validated against the agent configuration schema.
 - AI agents must not access business data without an active authorized assignment.
+- 
 - AI tasks must be validated against the relevant business-agent assignment.
 - Changes to assignments and permissions must be recorded in audit_logs.
 - Business-level data isolation must be enforced.
+# 35. PAYMENT TRANSACTIONS
+
+Purpose: Record and manage financial transactions related to business orders and platform subscriptions.
+
+Fields:
+- id (Primary Key)
+- business_id (Foreign Key -> businesses.id)
+- order_id (Foreign Key -> orders.id, Nullable)
+- subscription_id (Foreign Key -> subscriptions.id, Nullable)
+- payment_provider
+- provider_transaction_reference (Nullable)
+- provider_payment_reference (Nullable)
+- transaction_type
+- amount (NUMERIC)
+- currency
+- transaction_status
+- idempotency_key
+- failure_code (Nullable)
+- failure_reason (Nullable)
+- metadata (JSONB, Nullable)
+- processed_at (Nullable)
+- created_at
+- updated_at
+
+Relationships:
+- Each payment transaction belongs to one business.
+- A payment transaction may be associated with one order or one subscription.
+- Each order may have multiple payment transaction records.
+- Each subscription may have multiple payment transaction records.
+- Each transaction is processed through an authorized payment provider.
+
+Requirements:
+- Each transaction must reference either an order or a subscription, but not both.
+- The referenced order or subscription must belong to the same business.
+- Transaction amounts must use exact decimal arithmetic.
+- Currency codes must follow ISO 4217.
+- Supported transaction statuses must include Pending, Processing, Succeeded, Failed, Cancelled, and Refunded.
+- Transaction types must distinguish payments, refunds, and adjustments.
+- Idempotency keys must prevent duplicate payment processing.
+- Provider transaction references must be validated and unique where applicable.
+- Payment card numbers, CVV codes, and sensitive payment credentials must never be stored directly.
+- Payment provider credentials must be stored in a secure secrets manager.
+- Payment status must be verified using trusted provider responses or webhooks.
+- Financial records must not be silently deleted or modified.
+- Refunds and adjustments must preserve transaction history.
+- All financial operations must be auditable.
+- Access must follow business-level authorization rules.
+- Payment processing must use secure backend services.
