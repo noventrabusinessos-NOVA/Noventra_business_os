@@ -1067,3 +1067,43 @@ Requirements:
 - Public plan information must not expose internal configuration or sensitive data.
 - Plan creation and modification must be restricted to authorized administrators.
 - Important plan changes must be recorded in audit_logs.
+# 30. APPROVAL REQUESTS
+
+Purpose: Store and manage approval requests for sensitive or high-impact actions initiated by AI agents or authorized system processes.
+
+Fields:
+- id (Primary Key)
+- business_id (Foreign Key -> businesses.id)
+- requested_by (Foreign Key -> users.id)
+- ai_task_id (Foreign Key -> ai_tasks.id, Nullable)
+- action_type
+- action_payload (JSONB)
+- risk_level
+- approval_status
+- reviewed_by (Foreign Key -> users.id, Nullable)
+- reviewed_at (Nullable)
+- decision_reason (Nullable)
+- expires_at (Nullable)
+- created_at
+- updated_at
+
+Relationships:
+- Each approval request belongs to exactly one business.
+- Each approval request is created by one authorized user or system process.
+- An approval request may optionally reference one AI task.
+- An approval request may be reviewed by one authorized user.
+- One business can have multiple approval requests.
+
+Requirements:
+- The requesting user must have appropriate permissions within the business.
+- The referenced AI task, if present, must belong to the same business.
+- Supported approval statuses: Pending, Approved, Rejected, Expired, Cancelled.
+- Supported risk levels: Low, Medium, High, Critical.
+- Sensitive actions must not execute before approval when approval is required.
+- Approval decisions must be recorded with reviewer identity and timestamp.
+- Approval requests must be protected from unauthorized modification.
+- Expired requests must not be approved or executed.
+- Approval decisions must be recorded in audit_logs.
+- Action payloads must be validated before execution.
+- Sensitive information must not be stored unnecessarily in action_payload.
+- All approval operations must enforce business-level access control.
