@@ -35,11 +35,25 @@ Sensitive operations must never rely on frontend-only validation.
 
 Production API base URL:
 
-`https://api.example.com/v1`
+`https://api.example.com/api/v1`
 
 Development API base URL:
 
 `http://localhost:8000/api/v1`
+
+All endpoint paths defined in this document are relative to the API base URL.
+
+Example:
+
+POST /auth/register
+
+Full development URL:
+
+http://localhost:8000/api/v1/auth/register
+
+Full production URL:
+
+https://api.example.com/api/v1/auth/register
 
 These are placeholders and must be replaced during implementation.
 
