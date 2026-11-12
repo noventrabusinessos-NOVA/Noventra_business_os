@@ -47,9 +47,7 @@ Responsibilities:
 - Accessibility.
 
 Initial technologies:
-- HTML
-- CSS
-- JavaScript
+Next.js, React, TypeScript, Tailwind CSS.
 
 A modern frontend framework may be introduced when project complexity justifies it.
 
@@ -96,7 +94,7 @@ Purpose:
 Store and retrieve platform information securely.
 
 Planned database:
-- PostgreSQL or another suitable relational database.
+PostgreSQL, managed initially through Supabase where appropriate.
 
 Initial data entities:
 - Users
@@ -246,11 +244,8 @@ Architecture Decision Status: APPROVED
 - Tailwind CSS
 
 ## Backend
-- Python
-- FastAPI
-- Pydantic
-- SQLAlchemy
 
+Python, FastAPI, Pydantic, SQLAlchemy.
 ## Database
 - PostgreSQL
 - Supabase as an initial managed infrastructure option
