@@ -1021,6 +1021,49 @@ These entities will be added when their corresponding features are implemented.
 ---
 
 NOVENTRA BUSINESS OS
+
 One Intelligence. Multiple Businesses.
 
 Build. Connect. Manage. Scale.
+## Table: subscription_plans
+
+Purpose:
+Define the subscription plans, pricing, features, usage limits, and access entitlements available to NOVENTRA customers.
+
+Fields:
+- id (Primary Key)
+- plan_name
+- plan_code
+- description
+- price
+- currency
+- billing_interval
+- feature_limits
+- ai_usage_limits
+- storage_limit
+- user_limit
+- business_limit
+- available_features
+- plan_status
+- is_public
+- created_at
+- updated_at
+
+Relationships:
+- One subscription plan may be associated with multiple subscriptions.
+- Each subscription references exactly one subscription plan.
+
+Requirements:
+- Plan codes must be unique.
+- Prices must use decimal precision rather than floating-point values.
+- Currency must use valid ISO 4217 currency codes.
+- Billing intervals must support monthly and yearly options.
+- Feature and usage limits must use a consistent structured format.
+- AI usage limits must support configurable token or usage quotas.
+- Subscription entitlements must be enforced by the backend.
+- Plan changes must not silently modify existing customer subscription records.
+- Historical subscription pricing must remain traceable.
+- Inactive plans must not be available for new subscriptions.
+- Public plan information must not expose internal configuration or sensitive data.
+- Plan creation and modification must be restricted to authorized administrators.
+- Important plan changes must be recorded in audit_logs.
