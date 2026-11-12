@@ -365,46 +365,110 @@ Requirements:
 - Database-level security policies must enforce business data isolation where supported.
 # 12. WEBSITES
 
-Table: websites
+## Table: websites
 
 Purpose:
-Manage website projects and drafts.
+Manage website projects, drafts, published versions, content, design configurations, and deployment information for each business.
 
 Fields:
-
-- id
-- business_id
-- project_id
+- id (Primary Key)
+- business_id (Foreign Key -> businesses.id)
+- project_id (Foreign Key -> business_projects.id)
+- brand_identity_id (Foreign Key -> brand_identities.id, nullable)
+- created_by (Foreign Key -> users.id)
 - website_name
 - website_type
+- domain_name (nullable)
 - page_structure
 - website_content
 - design_settings
+- seo_settings
 - publication_status
+- deployment_status
+- published_url (nullable)
+- version_number
+- published_at (nullable)
 - created_at
 - updated_at
+
+Relationships:
+- Each website belongs to exactly one business.
+- Each website belongs to exactly one business project.
+- The associated project must belong to the same business.
+- Each website must have a valid creator.
+- A website may reference a brand identity belonging to the same business.
+- One business may have multiple websites.
+
+Requirements:
+- Website data must be isolated by business.
+- Users must have appropriate membership permissions to manage websites.
+- All operations must be authorized by the backend.
+- Drafts and published versions must be distinguishable.
+- Previous published versions should be recoverable.
+- Website content and page structures must support structured data.
+- Design settings must support customizable themes and responsive layouts.
+- SEO settings must support metadata, descriptions, and search engine configuration.
+- Domain ownership must be verified before connecting custom domains.
+- Publishing must require appropriate user authorization.
+- Deployment failures must be recorded and reported.
+- Website assets must be stored securely.
+- Important changes and publication events must be recorded in audit_logs.
+- Database-level security policies must enforce business data isolation where supported.
 
 # 13. MARKETING PLANS
 
-Table: marketing_plans
+## Table: marketing_plans
 
 Purpose:
-Store marketing strategies and campaigns.
+Store AI-generated and user-managed marketing strategies, campaigns, content plans, and marketing performance information for each business.
 
 Fields:
-
-- id
-- business_id
-- project_id
+- id (Primary Key)
+- business_id (Foreign Key -> businesses.id)
+- project_id (Foreign Key -> business_projects.id)
+- created_by (Foreign Key -> users.id)
+- analysis_id (Foreign Key -> business_analyses.id, nullable)
+- brand_identity_id (Foreign Key -> brand_identities.id, nullable)
 - target_audience
 - objectives
 - content_strategy
+- marketing_channels
 - marketing_calendar
 - campaign_data
+- budget
+- currency
+- performance_metrics
+- generation_source
 - status
+- version_number
 - created_at
 - updated_at
 
+Relationships:
+- Each marketing plan belongs to exactly one business.
+- Each marketing plan belongs to exactly one business project.
+- The associated project must belong to the same business.
+- Each marketing plan must have a valid creator.
+- A marketing plan may reference a business analysis.
+- A marketing plan may reference a brand identity.
+- Referenced analyses and brand identities must belong to the same business.
+
+Requirements:
+- Marketing plans must be isolated by business.
+- Users must have appropriate membership permissions to access and manage marketing plans.
+- All operations must be authorized by the backend.
+- AI-generated and user-created content must be distinguishable.
+- Users must be able to review and edit marketing strategies.
+- Previous plan versions must be preserved.
+- Marketing channels must support future integrations with external platforms.
+- Marketing calendars must support scheduled campaigns and content publication.
+- Budget values must use decimal precision and valid ISO currency codes.
+- Campaign performance metrics must use a consistent structured format.
+- Publishing advertisements or sending external messages must require appropriate authorization.
+- Spending money or exceeding an approved budget must require explicit human approval.
+- Important changes and approvals must be recorded in audit_logs.
+- Sensitive business and customer information must be protected.
+- Database-level security policies must enforce business data isolation where supported.
 # 14. PRODUCTS
 
 ## Table: products
