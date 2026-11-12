@@ -553,24 +553,45 @@ Requirements:
 - Database-level security policies must enforce business data isolation where supported.
 # 20. AI INTERACTIONS
 
-Table: ai_interactions
+## Table: ai_interactions
 
 Purpose:
-Maintain authorized AI interaction records.
+Maintain secure and traceable records of interactions between users and AI agents.
 
 Fields:
-
-- id
-- user_id
-- businessagent_id
+- id (Primary Key)
+- business_id (Foreign Key -> businesses.id)
+- user_id (Foreign Key -> users.id)
+- agent_id (Foreign Key -> ai_agents.id)
+- task_id (Foreign Key -> ai_tasks.id, nullable)
 - interaction_type
 - input_reference
 - output_reference
 - model_identifier
 - token_usage
+- interaction_status
 - created_at
 
-Sensitive information must be handled according to privacy and retention policies.
+Relationships:
+- Each interaction must belong to exactly one business.
+- Each interaction must be associated with a valid user.
+- Each interaction must reference a valid AI agent.
+- An interaction may optionally reference an AI task.
+- The user must have an active membership in the associated business.
+- The referenced task, when provided, must belong to the same business.
+
+Requirements:
+- AI interaction records must be isolated by business.
+- Users must not access interactions belonging to unauthorized businesses.
+- All access must be authorized by the backend.
+- Input and output references must point to securely stored records.
+- Sensitive information must be protected according to privacy and retention policies.
+- API keys, passwords, authentication tokens, and other secrets must never be stored in interaction records.
+- Model identifiers and token usage must be recorded for monitoring and cost analysis.
+- Interaction records must support authorized auditing and troubleshooting.
+- Access to interaction records must be logged where appropriate.
+- Data retention and deletion must follow applicable privacy requirements.
+- Database-level security policies must enforce business data isolation where supported.
 
 # 21. PROJECT TASKS
 
