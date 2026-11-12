@@ -1232,6 +1232,11 @@ Indexes should be created for frequently queried foreign key columns, including:
 - notifications.business_id
 - approval_requests.business_id
 - approval_requests.ai_task_id
+- - business_agent_assignments.business_id
+- business_agent_assignments.agent_id
+- business_agent_assignments.assigned_by
+- ai_tasks.business_agent_assignment_id
+- ai_interactions.business_agent_assignment_id
 
 ## 31.3 Composite Indexes
 
@@ -1247,7 +1252,9 @@ Examples:
 - ai_tasks (business_id, task_status)
 - notifications (user_id, read_at)
 - approval_requests (business_id, approval_status)
-
+- business_agent_assignments (business_id, agent_id)
+- ai_tasks (business_id, business_agent_assignment_id, task_status)
+- ai_interactions (business_id, business_agent_assignment_id, created_at)
 ## 31.4 Unique Indexes
 
 Unique constraints and indexes must prevent duplicate records where required.
