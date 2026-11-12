@@ -122,23 +122,21 @@ Relationship:
 One user may own multiple businesses.
 
 # 7. BUSINESS MEMBERSHIPS
-
-Table: business_memberships
+## Table: business_memberships
 
 Purpose:
-Manage access to businesses by multiple users.
+Manage user access and permissions for businesses.
 
 Fields:
-
-- id
-- business_id
-- user_id
+- id (Primary Key)
+- business_id (Foreign Key -> businesses.id)
+- user_id (Foreign Key -> users.id)
 - role
 - membership_status
 - created_at
+- updated_at
 
 Possible roles:
-
 - Owner
 - Administrator
 - Manager
@@ -146,11 +144,16 @@ Possible roles:
 - Viewer
 
 Requirements:
-
-- Membership permissions must be checked by the backend.
-- Users must not access unauthorized businesses.
-- Ownership transfers must be controlled.
-
+- Each membership must belong to one business and one user.
+- A user must not have duplicate memberships for the same business.
+- The combination of business_id and user_id must be unique.
+- All permissions must be verified by the backend.
+- Users must only access businesses where they have an active membership.
+- Inactive or revoked memberships must not grant access.
+- Ownership transfers must require explicit authorization.
+- Every ownership transfer must be recorded in the audit log.
+- Critical permission changes must be logged.
+- Database-level security policies must enforce business data isolation where supported.
 # 8. BUSINESS PROJECTS
 
 Table: business_projects
