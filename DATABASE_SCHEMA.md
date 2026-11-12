@@ -165,27 +165,38 @@ Requirements:
 - Critical permission changes must be logged.
 - Database-level security policies must enforce business data isolation where supported.
 # 8. BUSINESS PROJECTS
-
-Table: business_projects
+## Table: business_projects
 
 Purpose:
 Store individual business development projects.
 
 Fields:
-
-- id
-- business_id
+- id (Primary Key)
+- business_id (Foreign Key -> businesses.id)
 - title
 - description
 - project_category
 - project_status
-- created_by
+- created_by (Foreign Key -> users.id)
 - created_at
 - updated_at
 
-Relationship:
+Relationships:
+- One business may contain multiple projects.
+- Each project must belong to exactly one business.
+- Each project must be created by a valid user.
+- The creator must have an active membership in the associated business.
 
-One business may contain multiple projects.
+Requirements:
+- Every project must be associated with a valid business.
+- Project access must be controlled by business membership permissions.
+- Users must not access projects belonging to unauthorized businesses.
+- Project creation, updates, and deletion must be authorized by the backend.
+- Project ownership and business association must not be changed without authorization.
+- Project deletion must follow defined retention and recovery policies.
+- Important project changes must be recorded in the audit log.
+- Database-level security policies must enforce business data isolation where supported.
+
 
 # 9. BUSINESS ANALYSES
 
