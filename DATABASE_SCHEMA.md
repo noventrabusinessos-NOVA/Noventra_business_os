@@ -1264,7 +1264,90 @@ Examples:
 
 ## 31.7 Indexing Security and Tenant Isolation
 
+
 - Business-level queries should use appropriate business_id filtering.
 - Indexes must support efficient tenant-scoped queries.
 - Indexes do not replace authorization or Row Level Security.
 - Database access policies must remain enforced independently of indexing.
+- # 32. DATA TYPES AND FIELD CONSTRAINTS
+
+Purpose: Define consistent database data types, validation rules, and field constraints for PostgreSQL implementation.
+
+## 32.1 Identifier Fields
+
+- Primary keys should use UUID.
+- Foreign key fields must use the same data type as their referenced primary keys.
+- UUID values must be generated securely.
+- Identifier fields must not be reused after record deletion.
+
+## 32.2 Text Fields
+
+- Short names and titles should use VARCHAR with appropriate length limits.
+- Descriptions and long-form content should use TEXT.
+- Email addresses must be normalized and validated.
+- Phone numbers should be stored in a standardized international format where possible.
+- User-provided text must be validated and safely handled.
+
+## 32.3 Numeric Fields
+
+- Monetary values must use NUMERIC or DECIMAL, never FLOAT or REAL.
+- Quantity fields must use appropriate INTEGER or NUMERIC types.
+- Monetary values must not be negative unless explicitly permitted.
+- Percentages and rates must have defined valid ranges.
+- Token usage counters must use non-negative integer types.
+
+## 32.4 Date and Time Fields
+
+- created_at and updated_at should use TIMESTAMPTZ.
+- All application timestamps must be stored and processed in UTC.
+- Date-only values should use DATE.
+- Time-only values should use TIME where appropriate.
+- Expiration and review timestamps must use timezone-aware values.
+
+## 32.5 Boolean Fields
+
+- True/false settings must use BOOLEAN.
+- Boolean fields must have explicit defaults where appropriate.
+- Nullable boolean fields must be used only when a third state is meaningful.
+
+## 32.6 Structured Data Fields
+
+- Structured configuration and preference data may use JSONB.
+- JSONB fields must follow documented schemas.
+- Important relational data must not be stored only inside JSONB.
+- Large files and media assets must be stored in secure object storage.
+- Database records should store secure references to uploaded files.
+
+## 32.7 Status and Category Fields
+
+- Status fields must use documented and validated values.
+- Critical state transitions must be validated by the backend.
+- PostgreSQL ENUM types or CHECK constraints may be used where appropriate.
+- Status changes must preserve auditability.
+
+## 32.8 Currency and Financial Data
+
+- Currency codes must follow ISO 4217.
+- Monetary calculations must use exact decimal arithmetic.
+- Currency must be explicitly stored with relevant financial amounts.
+- Exchange rates, when introduced, must include their source and effective timestamp.
+- Financial calculations must be performed and validated on the backend.
+
+## 32.9 Required Field Constraints
+
+- Mandatory fields must use NOT NULL.
+- Optional fields must explicitly allow NULL.
+- Unique values must use UNIQUE constraints where required.
+- Foreign key fields must reference valid records.
+- Numeric fields must use appropriate CHECK constraints.
+- Default values must be explicitly documented.
+- Deletion behavior must be defined for dependent records.
+
+## 32.10 Implementation Requirements
+
+- Final SQL migrations must define explicit data types.
+- Every table must have documented primary and foreign keys.
+- Constraints must be tested before production deployment.
+- Database migrations must be version-controlled.
+- Schema changes must be reviewed before deployment.
+- Data integrity tests must be included in the automated test suite.
