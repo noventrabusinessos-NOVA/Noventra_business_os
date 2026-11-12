@@ -978,7 +978,21 @@ Orders:
 - An inactive or suspended assignment must not authorize new AI task execution.
 - Changes to assignments and permissions must be recorded in audit_logs.
 - All assignment relationships must enforce business-level data isolation.
+- 
+## 25.11 Payment Transaction Relationships
 
+- One business can have multiple payment transactions.
+- Each payment transaction belongs to exactly one business.
+- One order can have multiple payment transactions.
+- One subscription can have multiple payment transactions.
+- Each payment transaction must reference exactly one order or one subscription.
+- An order referenced by a payment transaction must belong to the same business.
+- A subscription referenced by a payment transaction must belong to the same business.
+- Payment transactions must maintain their own independent status and processing history.
+- Refunds must preserve references to the original payment transaction.
+- Payment transaction records must remain traceable throughout their lifecycle.
+- All financial operations must be recorded in audit_logs.
+- Payment relationships must enforce business-level data isolation.
 # 26. DATA SECURITY REQUIREMENTS
 
 - Use secure authentication.
