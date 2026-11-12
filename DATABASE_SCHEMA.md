@@ -465,14 +465,13 @@ Requirements:
 
 # 18. AI AGENTS
 
-Table: ai_agents
+## Table: ai_agents
 
 Purpose:
-Define available AI agents.
+Define and manage AI agents available within NOVENTRA.
 
 Fields:
-
-- id
+- id (Primary Key)
 - name
 - description
 - agent_type
@@ -482,7 +481,25 @@ Fields:
 - created_at
 - updated_at
 
-Agent configurations must not contain exposed API secrets.
+Relationships:
+- One AI agent may execute multiple AI tasks.
+- Each AI task must reference a valid AI agent.
+- AI agents must operate within explicitly assigned business contexts.
+
+Requirements:
+- Every AI agent must have a clearly defined role and responsibility.
+- Agent permissions must follow the principle of least privilege.
+- Agents must only access business data explicitly authorized for their tasks.
+- Agent permissions must be validated by the backend.
+- Agents must not access data belonging to unauthorized businesses.
+- Agent configurations must not contain exposed API keys, passwords, tokens, or other secrets.
+- Secrets must be stored in secure server-side secret management systems.
+- Agent configuration changes must be authorized and logged.
+- Disabled agents must not receive new tasks.
+- Agent execution must be monitored and logged.
+- Agents must not independently perform sensitive financial or external actions without required human approval.
+- AI-generated outputs must be associated with their originating tasks.
+- Database-level security policies must enforce business data isolation where supported.
 
 # 19. AI TASKS
 
