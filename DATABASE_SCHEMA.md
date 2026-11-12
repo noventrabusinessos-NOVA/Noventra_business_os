@@ -426,21 +426,42 @@ Order Items:
 Order items must be stored in a separate order_items table.
 Each order item must reference its parent order and preserve product details, quantity, unit price, and line total at the time of purchase.
 # 17. ORDER ITEMS
-
-Table: order_items
+## Table: order_items
 
 Purpose:
 Store individual products or services included in an order.
 
 Fields:
-
-- id
-- order_id
-- product_id
+- id (Primary Key)
+- order_id (Foreign Key -> orders.id)
+- product_id (Foreign Key -> products.id, nullable)
 - product_name_snapshot
 - quantity
 - unit_price
 - total_price
+- currency
+- created_at
+- updated_at
+
+Relationships:
+- Each order item must belong to exactly one order.
+- Each order may contain multiple order items.
+- Each order item may reference a product.
+- Product details must be preserved as a snapshot at purchase time.
+
+Requirements:
+- Every order item must reference a valid order.
+- The referenced product, when provided, must belong to the same business as the parent order.
+- Product name and price snapshots must remain unchanged after purchase.
+- Quantity must be greater than zero.
+- Unit price and total price must not be negative.
+- Monetary values must use precise decimal types.
+- Currency must match the parent order currency.
+- Total price must be calculated and validated by the backend.
+- Historical order items must not change when product details are updated.
+- Access permissions must follow the parent order and business.
+- Unauthorized users must not access or modify order items.
+- Important changes must be recorded in the audit log.
 
 # 18. AI AGENTS
 
