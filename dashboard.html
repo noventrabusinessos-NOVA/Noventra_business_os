@@ -1,0 +1,194 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NOVENTRA | Command Center</title>
+  <style>
+    :root {
+      --bg:#080e1b; --panel:#101d31; --line:rgba(160,190,230,.13);
+      --text:#f3f6fc; --muted:#8fa2bd; --blue:#438cff;
+      --cyan:#55d6e8; --green:#51d6a0;
+    }
+    * { box-sizing:border-box; }
+    body {
+      margin:0; background:var(--bg); color:var(--text);
+      font-family:Arial,Helvetica,sans-serif; line-height:1.5;
+    }
+    button,input { font:inherit; }
+    .app { min-height:100vh; display:grid; grid-template-columns:235px 1fr; }
+    aside { padding:25px 18px; background:#0b1425; border-right:1px solid var(--line); }
+    .brand { font-size:20px; font-weight:800; letter-spacing:2px; margin-bottom:38px; }
+    .brand span { color:var(--cyan); }
+    .nav-label { color:#657993; font-size:10px; letter-spacing:2px; margin:25px 10px 10px; }
+    nav { display:grid; gap:7px; }
+    nav a { padding:11px 12px; border-radius:9px; color:var(--muted); text-decoration:none; font-size:13px; }
+    nav a.active,nav a:hover { color:white; background:rgba(67,140,255,.15); }
+    .online { margin-top:45px; color:var(--green); font-size:12px; }
+    main { min-width:0; padding:30px clamp(16px,4vw,48px); }
+    .topbar { display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--line); padding-bottom:20px; color:var(--muted); font-size:12px; }
+    .avatar { width:36px; height:36px; display:grid; place-items:center; border-radius:50%; background:linear-gradient(135deg,var(--blue),var(--cyan)); color:#07111f; font-weight:bold; }
+    .heading { margin:35px 0 25px; }
+    .eyebrow { color:var(--cyan); font-size:10px; letter-spacing:2px; font-weight:bold; }
+    h1 { font-size:36px; margin:8px 0; }
+    .subtitle { color:var(--muted); font-size:13px; }
+    .metrics { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; }
+    .panel { background:linear-gradient(145deg,#14243b,#101d31); border:1px solid var(--line); border-radius:14px; }
+    .metric { padding:18px; }
+    .metric small { color:var(--muted); }
+    .metric strong { display:block; font-size:28px; margin-top:12px; }
+    .metric p { margin:4px 0 0; color:var(--muted); font-size:10px; }
+    .content { display:grid; grid-template-columns:1.3fr 1fr; gap:15px; margin-top:17px; }
+    .section { padding:20px; }
+    h2 { font-size:15px; margin:0 0 17px; }
+    .task { display:flex; align-items:center; gap:10px; padding:12px; margin-bottom:8px; border:1px solid var(--line); border-radius:9px; font-size:12px; }
+    .task input { accent-color:var(--blue); }
+    .task span { flex:1; }
+    .task.done span { text-decoration:line-through; color:#71839c; }
+    .tag { color:var(--cyan); font-size:9px; }
+    .add { display:flex; gap:8px; margin-top:12px; }
+    .add input { flex:1; min-width:0; padding:10px; border:1px solid var(--line); border-radius:8px; background:#0b1628; color:white; }
+    .add button { border:0; border-radius:8px; padding:0 14px; background:var(--blue); color:white; }
+    .agent { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid var(--line); }
+    .agent:last-child { border:0; }
+    .agent-icon { width:34px; height:34px; display:grid; place-items:center; background:rgba(67,140,255,.15); color:var(--cyan); border-radius:9px; }
+    .agent div:nth-child(2) { flex:1; }
+    .agent strong { display:block; font-size:12px; }
+    .agent small { color:var(--muted); font-size:10px; }
+    .ready { color:var(--green); font-size:10px; }
+    .bottom { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-top:15px; }
+    .status-row { display:flex; justify-content:space-between; padding:11px 0; border-bottom:1px solid var(--line); font-size:11px; }
+    .status-row span { color:var(--muted); }
+    .ok { color:var(--green); }
+    .vision { padding:22px; }
+    .vision p { color:var(--muted); font-size:12px; }
+    footer { text-align:center; color:#637792; font-size:10px; padding:25px; }
+    @media(max-width:900px) {
+      .metrics { grid-template-columns:repeat(2,1fr); }
+      .content,.bottom { grid-template-columns:1fr; }
+    }
+    @media(max-width:600px) {
+      .app { grid-template-columns:1fr; }
+      aside { padding:14px; border-right:0; border-bottom:1px solid var(--line); }
+      .brand { margin-bottom:12px; }
+      .nav-label,.online { display:none; }
+      nav { display:flex; overflow-x:auto; }
+      nav a { white-space:nowrap; font-size:11px; }
+      main { padding:18px 14px; }
+      h1 { font-size:29px; }
+      .metric { padding:13px; }
+      .metric strong { font-size:24px; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <div class="brand"><span>N</span> NOVENTRA</div>
+    <div class="nav-label">WORKSPACE</div>
+    <nav>
+      <a class="active" href="#overview">⌂ Overview</a>
+      <a href="#businesses">◈ Businesses</a>
+      <a href="#agents">✧ AI Workforce</a>
+      <a href="#commerce">⬡ 3D Commerce</a>
+      <a href="#analytics">▥ Analytics</a>
+    </nav>
+    <div class="online">● INTERFACE ONLINE</div>
+  </aside>
+
+  <main id="overview">
+    <div class="topbar">
+      <span>NOVENTRA / COMMAND CENTER</span>
+      <div class="avatar">N</div>
+    </div>
+    <div class="heading">
+      <div class="eyebrow">YOUR INTELLIGENCE HUB</div>
+      <h1>Command Center</h1>
+      <div class="subtitle">Your business universe, all in one place.</div>
+    </div>
+
+    <section class="metrics">
+      <div class="panel metric"><small>Business spaces</small><strong>01</strong><p>Workspace ready</p></div>
+      <div class="panel metric"><small>AI agents</small><strong>04</strong><p>Demo profiles</p></div>
+      <div class="panel metric"><small>Open tasks</small><strong id="count">03</strong><p>Priority actions</p></div>
+      <div class="panel metric"><small>System status</small><strong style="color:var(--green);font-size:21px">ONLINE</strong><p>Frontend preview</p></div>
+    </section>
+
+    <div class="content">
+      <section class="panel section" id="businesses">
+        <h2>Priority Tasks</h2>
+        <div id="tasks">
+          <label class="task"><input type="checkbox"><span>Define the first business workspace</span><small class="tag">STRATEGY</small></label>
+          <label class="task"><input type="checkbox"><span>Map the NOVENTRA modules</span><small class="tag">PLANNING</small></label>
+          <label class="task"><input type="checkbox"><span>Design the first AI workflow</span><small class="tag">AI</small></label>
+        </div>
+        <form class="add" id="form">
+          <input id="newTask" placeholder="Add a new task..." required>
+          <button type="submit">+ Add</button>
+        </form>
+      </section>
+
+      <section class="panel section" id="agents">
+        <h2>AI Workforce</h2>
+        <div class="agent"><div class="agent-icon">✧</div><div><strong>NOVA / Strategy</strong><small>Planning &amp; decisions</small></div><span class="ready">Ready</span></div>
+        <div class="agent"><div class="agent-icon">⌘</div><div><strong>ORBIT / Operations</strong><small>Workflow coordination</small></div><span class="ready">Ready</span></div>
+        <div class="agent"><div class="agent-icon">◉</div><div><strong>ATLAS / Research</strong><small>Insights &amp; discovery</small></div><span class="ready">Ready</span></div>
+        <div class="agent"><div class="agent-icon">◇</div><div><strong>PIXEL / Commerce</strong><small>Digital experiences</small></div><span class="ready">Ready</span></div>
+      </section>
+    </div>
+
+    <div class="bottom">
+      <section class="panel section" id="analytics">
+        <h2>Platform Health</h2>
+        <div class="status-row"><span>Dashboard interface</span><b class="ok">Operational</b></div>
+        <div class="status-row"><span>Task interaction</span><b class="ok">Enabled</b></div>
+        <div class="status-row"><span>Database</span><b>Not connected</b></div>
+        <div class="status-row"><span>AI model</span><b>Not connected</b></div>
+      </section>
+      <section class="panel vision" id="commerce">
+        <div class="eyebrow">NEXT FRONTIER</div>
+        <h2>Build beyond the ordinary.</h2>
+        <p>This is the first interface layer of your business operating system. Real data and AI connections will come next.</p>
+        <a href="index.html" style="color:var(--cyan);font-size:11px">← Back to NOVENTRA</a>
+      </section>
+    </div>
+    <footer>NOVENTRA COMMAND CENTER · INTERACTIVE FRONTEND PREVIEW · 2026</footer>
+  </main>
+</div>
+<script>
+  const tasks = document.getElementById('tasks');
+  const count = document.getElementById('count');
+  function updateCount() {
+    const all = [...tasks.querySelectorAll('input[type="checkbox"]')];
+    count.textContent = String(all.filter(x => !x.checked).length).padStart(2,'0');
+  }
+  tasks.addEventListener('change', e => {
+    if(e.target.matches('input[type="checkbox"]')) {
+      e.target.closest('.task').classList.toggle('done',e.target.checked);
+      updateCount();
+    }
+  });
+  document.getElementById('form').addEventListener('submit',e => {
+    e.preventDefault();
+    const input = document.getElementById('newTask');
+    const value = input.value.trim();
+    if(!value) return;
+    const label = document.createElement('label');
+    label.className = 'task';
+    const check = document.createElement('input');
+    check.type = 'checkbox';
+    const span = document.createElement('span');
+    span.textContent = value;
+    const tag = document.createElement('small');
+    tag.className = 'tag';
+    tag.textContent = 'NEW';
+    label.append(check,span,tag);
+    tasks.append(label);
+    input.value = '';
+    updateCount();
+  });
+  updateCount();
+</script>
+</body>
+</html>
