@@ -657,3 +657,73 @@ a {
     transition-duration: .01ms !important;
   }
 }
+/* NOVENTRA — ROTATING INTELLIGENCE ORBITS */
+
+.orbit {
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.orbit-outer {
+  border-top-color: rgba(85, 214, 232, 0.95);
+  animation: noventra-rotate 36s linear infinite;
+}
+
+.orbit-middle {
+  border-top-color: rgba(67, 140, 255, 0.95);
+  animation: noventra-rotate-reverse 27s linear infinite;
+}
+
+.orbit-inner {
+  border-top-color: rgba(85, 214, 232, 0.9);
+  animation: noventra-rotate 19s linear infinite;
+}
+
+/* Glowing orbit points */
+.orbit::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #55d6e8;
+  box-shadow: 0 0 10px #55d6e8, 0 0 20px #438cff;
+}
+
+.orbit-middle::after {
+  background: #438cff;
+  box-shadow: 0 0 10px #438cff, 0 0 18px #438cff;
+}
+
+.orbit-inner::after {
+  width: 6px;
+  height: 6px;
+  background: #ffffff;
+  box-shadow: 0 0 10px #55d6e8;
+}
+
+@keyframes noventra-rotate {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes noventra-rotate-reverse {
+  from {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit {
+    animation: none !important;
+  }
+}
