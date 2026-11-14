@@ -719,7 +719,43 @@ a {
   }
   to {
     transform: translate(-50%, -50%) rotate(0deg);
+  }/* NOVENTRA — VISIBLE ORBIT MOTION FIX */
+
+.orbit-node {
+  display: none !important;
+}
+
+.orbit {
+  animation-play-state: running !important;
+}
+
+.orbit-outer {
+  animation: noventra-rotate 18s linear infinite !important;
+}
+
+.orbit-middle {
+  animation: noventra-rotate-reverse 13s linear infinite !important;
+}
+
+.orbit-inner {
+  animation: noventra-rotate 9s linear infinite !important;
+}
+
+.orbit::after {
+  display: block !important;
+  top: -4px;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  background: #55d6e8;
+  box-shadow: 0 0 12px #55d6e8, 0 0 24px #438cff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit {
+    animation-play-state: running !important;
   }
+}
 }
 
 @media (prefers-reduced-motion: reduce) {
